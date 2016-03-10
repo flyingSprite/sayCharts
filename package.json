@@ -1,0 +1,32 @@
+{
+  "name": "say-charts",
+  "version": "1.0.0",
+  "description": "Use D3 to create charts.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flyingSprite/sayCharts.git"
+  },
+  "author": "Quesle",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flyingSprite/sayCharts/issues"
+  },
+  "homepage": "https://github.com/flyingSprite/sayCharts#readme",
+  "devDependencies": {
+    "babel-cli": "^6.6.5",
+    "babel-core": "^6.7.0",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "graceful-fs": "^4.1.3",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-load-plugins": "^1.2.0"
+  },
+  "dependencies": {
+    "d3": "^3.5.16"
+  }
+}
