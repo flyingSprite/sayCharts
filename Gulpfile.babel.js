@@ -30,11 +30,11 @@ gulp.task('build', () => {
     return browserify({entries: './src/say-charts.js', debug: true})
             .transform('babelify', {presets: ['es2015', 'stage-0']})
             .bundle()
-            .pipe(source('app.js'))
-            //.pipe(buffer())
-            //.pipe(sourcemaps.init())
-            //.pipe(uglify())
-            //.pipe(sourcemaps.write('./maps'))
+            .pipe(source( packages.name + '.all.min.js' ))
+            .pipe(buffer())
+            .pipe(sourcemaps.init())
+            .pipe(uglify())
+            .pipe(sourcemaps.write('./maps'))
             .pipe(gulp.dest('./dist'))
             .pipe(livereload());
 });
@@ -42,8 +42,6 @@ gulp.task('build', () => {
 gulp.task('scripts', () => {
     return gulp.src('src/**/*.js')
         .pipe(babel({ presets: ['es2015', 'stage-0'] }))
-        .pipe(source('app.js'))
-            .pipe(buffer())
         .pipe(uglify())
         .pipe(gulp.dest('dist/'));
 })
@@ -51,21 +49,20 @@ gulp.task('scripts', () => {
 gulp.task('scripts-all', () => {
     return gulp.src('src/**/*.js')
         .pipe(babel({ presets: ['es2015', 'stage-0'] }))
-        // .pipe(sourcemaps.init())
-        .pipe(browserify({
-      insertGlobals : true,
-      debug : !gulp.env.production
-    }))
         .pipe(uglify())
         .pipe(concat(packages.name + '.min.js'))
-        // .pipe(sourcemaps.write())
         .pipe(gulp.dest('dist/'));
 });
 
 
 gulp.task('default', ['scripts', 'scripts-all', 'connectDev'], () => {
-  console.log("------");
   gulp.watch('src/**/*.js', () => {
     gulp.run('scripts');
   })
+});
+
+gulp.task('bundle', ['build', 'connectDev'], () => {
+    gulp.watch('src/**/*.js', () => {
+        gulp.run('build');
+    });
 });
