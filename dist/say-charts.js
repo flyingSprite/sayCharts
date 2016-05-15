@@ -1,1 +1,0 @@
-"use strict";function _interopRequireDefault(e){return e&&e.__esModule?e:{"default":e}}var _webspider=require("./components/webspider.js"),_webspider2=_interopRequireDefault(_webspider),spider=new _webspider2["default"];spider.test();
