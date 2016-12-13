@@ -4,7 +4,7 @@ import uglify from 'gulp-uglify';
 import concat from 'gulp-concat';
 import connect from 'gulp-connect';
 
-import babelify from 'babelify';
+// import babelify from 'babelify';
 import source from 'vinyl-source-stream';
 import buffer from 'vinyl-buffer';
 import livereload from 'gulp-livereload';
@@ -21,13 +21,13 @@ gulp.task('demo', function (){
 gulp.task('connectDev', () => {
 
     connect.server({
-        port: 8000,
+        port: 8001,
         livereload: true
-    })
+    });
 });
 
 gulp.task('build', () => {
-    return browserify({entries: './src/say-charts.js', debug: true})
+    return browserify({entries: './src/index.js', debug: true})
             .transform('babelify', {presets: ['es2015', 'stage-0']})
             .bundle()
             .pipe(source( packages.name + '.all.min.js' ))
@@ -44,7 +44,7 @@ gulp.task('scripts', () => {
         .pipe(babel({ presets: ['es2015', 'stage-0'] }))
         .pipe(uglify())
         .pipe(gulp.dest('dist/'));
-})
+});
 
 gulp.task('scripts-all', () => {
     return gulp.src('src/**/*.js')
@@ -55,13 +55,13 @@ gulp.task('scripts-all', () => {
 });
 
 
-gulp.task('default', ['scripts', 'scripts-all', 'connectDev'], () => {
+gulp.task('bundle', ['scripts', 'scripts-all', 'connectDev'], () => {
   gulp.watch('src/**/*.js', () => {
     gulp.run('scripts');
-  })
+  });
 });
 
-gulp.task('bundle', ['build', 'connectDev'], () => {
+gulp.task('default', ['build', 'connectDev'], () => {
     gulp.watch('src/**/*.js', () => {
         gulp.run('build');
     });

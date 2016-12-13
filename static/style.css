@@ -1,0 +1,9 @@
+
+.svg-sence svg {
+    cursor: pointer;
+  }
+}
+
+.selected {
+  border: 1px solid #ddd;
+}

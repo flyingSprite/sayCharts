@@ -1,0 +1,1 @@
+"use strict";function listData(t,a,e){for(var o=[],r=a-t,s=0;e>s;s++){var i=t+Math.random()*r;o.push(i.toFixed(2))}return o}Object.defineProperty(exports,"__esModule",{value:!0}),exports.listData=listData,console.log(listData(0,100,10));

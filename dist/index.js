@@ -1,0 +1,1 @@
+"use strict";function _interopRequireDefault(e){return e&&e.__esModule?e:{"default":e}}var _director=require("./components/director.js"),_director2=_interopRequireDefault(_director),director=new _director2["default"]("center-point");director.centerPoint();

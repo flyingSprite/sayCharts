@@ -4,6 +4,7 @@
 <head>
   <title>D3 Say Charts</title>
   <link rel="stylesheet" type="text/css" href="node_modules/material-design-lite/material.min.css">
+  <link rel="stylesheet" type="text/css" href="static/style.css">
   <style type="text/css">
     .node-point {
       stroke: #8BABC5;
@@ -41,13 +42,15 @@
   </style>
 </head>
 <body>
-<select>
-  <option>message 1 </option>
-    <option>message 1 </option>
-      <option>message 1 </option>
-        <option>message 1 </option>
-</select>
 <div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--1-col"></div>
+  <div class="mdl-cell mdl-cell--10-col">
+    Dx: <input type="number" id="dx" />
+    Dy: <input type="number" id="dy" />
+    <input type="button" id="set" value="Set"/>
+  </div>
+  <div class="mdl-cell mdl-cell--1-col"></div>
+
   <div class="mdl-cell mdl-cell--1-col"></div>
   <div class=" mdl-cell mdl-cell--10-col mdl-card mdl-shadow--2dp" style="height:500px;"
       id="center-point"></div>
