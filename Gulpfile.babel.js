@@ -10,7 +10,7 @@ import buffer from 'vinyl-buffer';
 import livereload from 'gulp-livereload';
 
 import sourcemaps from 'gulp-sourcemaps';
-var browserify = require('browserify');
+import browserify from 'browserify';
 
 import packages from './package.json';
 
@@ -27,7 +27,7 @@ gulp.task('connectDev', () => {
 });
 
 gulp.task('build', () => {
-    return browserify({entries: './src/index.js', debug: true})
+    return browserify({entries: './src/index.js', debug: false})
             .transform('babelify', {presets: ['es2015', 'stage-0']})
             .bundle()
             .pipe(source( packages.name + '.all.min.js' ))

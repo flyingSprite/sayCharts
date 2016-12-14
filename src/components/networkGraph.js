@@ -15,6 +15,7 @@ class NetworkGraph extends BasicComponent {
 
   init() {
     this.group = new StandardLayout(this.director).create();
+
   }
 
   addSvg(name, dx=0, dy=0) {
@@ -47,6 +48,10 @@ class NetworkGraph extends BasicComponent {
       self.selected(node);
       self.director.touchClickEvent(node);
     });
+    const drag = d3.behavior.drag().on('drag', function() {
+      // d3.select(this).attr('transform', `translate(${d3.event.x}, ${d3.event.y}`);
+    });
+    node.element.call(drag);
   }
 
   selected(node) {
