@@ -24,20 +24,20 @@ class WebSpider{
       this.dashedTierCreator(this.posititions);
       this.dashedPointCreator(this.posititions);
       this.zoom();
-      this.drag();
+      // this.drag();
   }
 
-  drag () {
-      var dx = this.center.x, dy = this.center.y;
-      var drag = d3.behavior.drag()
-          .on('drag', (d) => {
-              this.dx += d3.event.dx;
-              this.dy += d3.event.dy;
-              this.layout.attr('transform',
-                'translate(' + this.dx  + ', ' + this.dy + ')scale(' + this.scale + ')');
-          });
-      this.director.scene.call(drag);
-  }
+  // drag () {
+  //     var dx = this.center.x, dy = this.center.y;
+  //     var drag = d3.behavior.drag()
+  //         .on('drag', (d) => {
+  //             this.dx += d3.event.dx;
+  //             this.dy += d3.event.dy;
+  //             this.layout.attr('transform',
+  //               'translate(' + this.dx  + ', ' + this.dy + ')scale(' + this.scale + ')');
+  //         });
+  //     this.director.scene.call(drag);
+  // }
 
   zoom () {
       var zoom = d3.behavior.zoom()
@@ -79,14 +79,14 @@ class WebSpider{
       *       [{}, {}, {}, {}, {}, {}, {}, {}]
       *   ]
       */
-      for (var i = 0; i < this.tiers; i ++) {
+      for (var k = 0; k < this.tiers; k ++) {
           var tierPosi = [];
-          var newTierR = this.tierR * i + this.defaultTierR;
+          var newTierR = this.tierR * k + this.defaultTierR;
           for (var j = 0; j < this.segments; j ++) {
-            var theta = ((2 * Math.PI) / this.segments) * j;
+            var theta1 = ((2 * Math.PI) / this.segments) * j;
             var nodePosi = {
-              x: newTierR * Math.cos(theta),
-              y: newTierR * Math.sin(theta),
+              x: newTierR * Math.cos(theta1),
+              y: newTierR * Math.sin(theta1),
             };
             tierPosi.push(nodePosi);
           }
@@ -101,12 +101,12 @@ class WebSpider{
       var lines = [];
 
       for ( var i = 0; i < tiers; i ++ ) {
-        for (var pos = 0; pos < segments; pos ++) {
-          var prevPositition = (i === 0) ? {x: 0, y: 0}
-            : nodePosititions[i - 1][pos];
-          var positition = nodePosititions[i][pos];
-          var line = this.dashednetBeelineCreator(prevPositition, positition);
-          lines.push(line);
+        for (var pos1 = 0; pos1 < segments; pos1 ++) {
+          var prevPositition1 = (i === 0) ? {x: 0, y: 0}
+            : nodePosititions[i - 1][pos1];
+          var positition1 = nodePosititions[i][pos1];
+          var line1 = this.dashednetBeelineCreator(prevPositition1, positition1);
+          lines.push(line1);
         }
       }
 
@@ -148,15 +148,15 @@ class WebSpider{
           isFisrt = false;
         }
       }
-      var line = this.dashednetBeelineCreator(tierPosititions[0], tierPosititions[tierPosititions.length - 1]);
+      this.dashednetBeelineCreator(tierPosititions[0], tierPosititions[tierPosititions.length - 1]);
     }
   }
 
   dashedPointCreator (posititions) {
     var nodePosititions = posititions.nodes;
     var allPosititions = [];
-    for(var i = 0; i < nodePosititions.length; i ++ ){
-      allPosititions = allPosititions.concat(nodePosititions[i]);
+    for(var k = 0; k < nodePosititions.length; k ++ ){
+      allPosititions = allPosititions.concat(nodePosititions[k]);
     }
     var nodes = [];
     for(var i = 0; i < allPosititions.length; i ++ ){

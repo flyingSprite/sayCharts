@@ -2,14 +2,14 @@
 // import CenterPoint from './center-point.js';
 // import WebSpider from './web-spider.js';
 import NetworkGraph from './networkGraph';
-import d3 from 'd3';
 import _ from 'lodash';
 
 class Director{
 
-  constructor(id) {
+  constructor(d3, id) {
+    this.d3 = d3;
     // 创建一个SVG，占据整个div
-    this.scene = d3.select('#' + id).append('svg')
+    this.scene = this.d3.select('#' + id).append('svg')
             .style('width', '100%')
             .style('height', '100%');
     // 获取SVG的宽

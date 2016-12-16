@@ -1,6 +1,7 @@
 
 import BasicComponent from './basic';
 import StandardLayout from './standardLayout';
+import _ from 'lodash';
 
 import CONFIG from '../config';
 
@@ -20,38 +21,73 @@ class NetworkGraph extends BasicComponent {
 
   addSvg(name, dx=0, dy=0) {
     const self = this;
-    d3.xml(CONFIG.svgPath + name, 'image/svg+xml', function(error, xml) {
+    this.d3.xml(CONFIG.svgPath + name, function(error, xml) {
       if (error) {
         throw error;
       }
       let importedNode = document.importNode(xml.documentElement, true);
       let svgGroup = self.group.append('g');
+
+      var node = {};
+
       // Add svg file in svgGroup
       svgGroup.select(function() {
-        this.appendChild(importedNode.cloneNode(true));
+        // console.log(this);
+        var svgNode = this.appendChild(importedNode.cloneNode(true));
+
+        // Get width and height from svg element.
+        node.width = self.getWidthFromSVG(svgNode);
+        node.height = self.getHeightFromSVG(svgNode);
       });
-      svgGroup.attr('transform', `translate(${dx}, ${dy})`);
-      const newName = name + new Date(). getTime();
-      self.nodes[newName] = {
-        x: dx,
-        y: dy,
-        name: newName,
-        element: svgGroup
-      };
+      node.x = dx - node.width / 2;
+      node.y = dy - node.height / 2;
+      const newName = name + new Date().getTime();
+      node.name = newName;
+      node.element = svgGroup;
+      self.nodes[newName] = node;
+
+      svgGroup.attr('transform', `translate(${node.x}, ${node.y})`);
       self.addEvents(self.nodes[newName]);
     });
   }
 
+  getWidthFromSVG(svg) {
+    if (svg && svg.width && svg.width.baseVal && svg.width.baseVal.value) {
+      return _.round(svg.width.baseVal.value);
+    }
+    return 0;
+  }
+
+  getHeightFromSVG(svg) {
+    if (svg && svg.height && svg.height.baseVal && svg.height.baseVal.value) {
+      return _.round(svg.height.baseVal.value);
+    }
+    return 0;
+  }
+
   addEvents(node) {
     const self = this;
+
+    // Add click event
     node.element.on('click', function () {
       self.selected(node);
       self.director.touchClickEvent(node);
     });
-    const drag = d3.behavior.drag().on('drag', function() {
-      // d3.select(this).attr('transform', `translate(${d3.event.x}, ${d3.event.y}`);
-    });
-    node.element.call(drag);
+
+    // Add drag event
+    node.element.call(self.d3.drag().on('start', function() {
+      self.selected(node);
+      function dragged() {
+        self.director.touchClickEvent(node);
+        node.x = _.round(self.d3.event.x - node.width / 2);
+        node.y = _.round(self.d3.event.y - node.height / 2);
+        node.element.attr('transform', `translate(${node.x}, ${node.y})`);
+      }
+      function ended() {
+        // Do closed
+      }
+      self.d3.event.on('drag', dragged).on('end', ended);
+    }));
   }
 
   selected(node) {
@@ -64,8 +100,8 @@ class NetworkGraph extends BasicComponent {
 
   setPosition(dx, dy) {
     if (!!this.selectedNode) {
-      this.selectedNode.x = dx;
-      this.selectedNode.y = dy;
+      this.selectedNode.x = dx - this.selectedNode.width / 2;
+      this.selectedNode.y = dy - this.selectedNode.height / 2;
       this.selectedNode.element.attr('transform', `translate(${dx}, ${dy})`);
     }
   }
